@@ -1,0 +1,26 @@
+public class OperazioniMatematiche {
+    private int num1;
+    private int num2;
+
+    public OperazioniMatematiche(int num1, int num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    public int somma() {
+        return num1 + num2;
+    }
+
+    public int prodotto() {
+        return num1 * num2;
+    }
+
+    public static void main(String[] args) {
+        OperazioniMatematiche op = new OperazioniMatematiche(5, 10);
+        int somma = op.somma();
+        int prodotto = op.prodotto();
+        System.out.println("La somma di " + op.num1 + " e " + op.num2 + " è: " + somma);
+        System.out.println("Il prodotto di " + op.num1 + " e " + op.num2 + " è: " + prodotto);
+    }
+}
+
