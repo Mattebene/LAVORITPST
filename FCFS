@@ -1,0 +1,56 @@
+package it.edu.iisgubbio.fcs;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class FcS extends Application {
+
+    
+    public void start(Stage primaryStage) {
+       
+        int[] tempiServizio = {0, 5, 8, 16};
+        
+     
+        int[] tempiAttesa = new int[tempiServizio.length];
+        int[] tempiEsecuzione = new int[tempiServizio.length];
+        
+        tempiAttesa[0] = 0; 
+        tempiEsecuzione[0] = tempiServizio[0];
+        
+        for (int i = 1; i < tempiServizio.length; i++) {
+            tempiAttesa[i] = tempiEsecuzione[i - 1];
+            tempiEsecuzione[i] = tempiAttesa[i] + tempiServizio[i];
+        }
+        
+      
+        VBox root = new VBox();
+        root.setPadding(new Insets(10));
+        root.setSpacing(10);
+        
+        for (int i = 0; i < tempiServizio.length; i++) {
+            Label label = new Label("Processo " + i + ": Tempo di servizio=" + tempiServizio[i] +
+                    ", Tempo di attesa=" + tempiAttesa[i] + ", Tempo di esecuzione=" + tempiEsecuzione[i]);
+            root.getChildren().add(label);
+        }
+        
+        Scene scene = new Scene(root, 400, 300);
+        
+        primaryStage.setTitle("ciao mondo");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
