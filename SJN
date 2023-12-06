@@ -1,0 +1,120 @@
+package it.edu.iisgubbio.sjn;
+
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SJN extends Application {
+
+    private List<Processi> processo;
+
+    @Override
+    public void start(Stage primaryStage) {
+       
+
+        processo = new ArrayList<>();
+
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+        Label lProcesso = new Label("Processo:");
+        gridPane.add(lProcesso, 0, 0);
+
+        TextField tProcesso = new TextField();
+        gridPane.add(tProcesso, 1, 0);
+
+        Label lArrivo = new Label("tempo di arrivo:");
+        gridPane.add(lArrivo, 0, 1);
+
+        TextField tArrivo = new TextField();
+        gridPane.add(tArrivo, 1, 1);
+
+        Button bAggiungi = new Button("aggiungi processo");
+        gridPane.add(bAggiungi, 0, 2);
+
+        Button bCalcola = new Button("Calcola");
+        gridPane.add(bCalcola, 1, 2);
+
+        Scene scene = new Scene(gridPane, 300, 150);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+     
+        bAggiungi.setOnAction(event -> {
+        	
+            String nomeProcesso = tProcesso.getText();
+            int tempoArrivo = Integer.parseInt(tArrivo.getText());
+
+            Processi process = new Processi(nomeProcesso, tempoArrivo);
+            processo.add(process);
+
+           
+        });
+
+      /*
+       * se all'interno dela emoria non c'è alcun processo
+       * scrie sulla console "NON HAI INSERITO PROCESSI"
+       */
+        
+        bCalcola.setOnAction(event -> {
+            if (processo.isEmpty()) {
+                System.out.println("NON HAI INSERITO PROCESSI");
+                return;
+            }
+
+        
+            processo.sort((p1, p2) -> p1.Tempoesecuzione() - p2.Tempoesecuzione());
+
+            System.out.println("SJN Risultato:");
+
+            int tmpotot = 0;
+            int tempoatesa = 0;
+
+            for (Processi processi : processo) {
+                System.out.println("Processo: " + processi.nomeProcesso() + 
+               ", tempo di esecuzione " + processi.Tempoesecuzione() + ", tempo di attesa: " + tempoatesa);
+
+                tmpotot += processi.Tempoesecuzione();
+                tempoatesa += processi.Tempoesecuzione();
+            }
+
+            double tempoattesa = (double) tempoatesa / processo.size();
+            System.out.println("tempo totale: " + tmpotot);
+            System.out.println("tempo di attesa : " + tempoattesa);
+        });
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    private static class Processi {
+        private String nomedelprocesso;
+        private int tempoesecuzione;
+
+        public Processi(String nomeProcesso, int TempoDiesEcuzione) {
+            this.nomedelprocesso = nomeProcesso;
+            this.tempoesecuzione = TempoDiesEcuzione;
+        }
+
+        public String nomeProcesso() {
+        	
+            return nomedelprocesso;
+        }
+
+        public int Tempoesecuzione() {
+            return tempoesecuzione;
+        }
+    }
+}
