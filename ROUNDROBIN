@@ -1,0 +1,80 @@
+package it.edu.iisgubbio.Prova;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+/**
+ * This class implements the Round Robin scheduling algorithm for process execution.
+ */
+public class RoundRobin {
+    /**
+     * The main method that executes the Round Robin scheduling algorithm.
+     *
+     * @param args The command-line arguments (not used).
+     */
+    public static void main(String[] args) {
+        // Inizializzazione della coda dei processi
+        Queue<Processo> codaProcessi = new LinkedList<>();
+        codaProcessi.add(new Processo("P1", 4)); // Aggiunta del processo P1 con tempo di esecuzione 4
+        codaProcessi.add(new Processo("P2", 2)); // Aggiunta del processo P2 con tempo di esecuzione 2
+        codaProcessi.add(new Processo("P3", 5)); // Aggiunta del processo P3 con tempo di esecuzione 5
+        codaProcessi.add(new Processo("P4", 7)); // Aggiunta del processo P4 con tempo di esecuzione 7
+
+        // Durata dello slice di tempo
+        int intervalloDiTempo = 2;
+
+        // Ciclo di esecuzione dei processi
+        while (!codaProcessi.isEmpty()) {
+            Processo processoCorrente = codaProcessi.poll(); // Rimozione del primo processo dalla coda
+            int tempoRimanente = processoCorrente.esegui(intervalloDiTempo); // Esecuzione del processo per il tempo specificato
+            if (tempoRimanente > 0) {
+                // Il processo non è ancora terminato, viene reinserito in coda
+                codaProcessi.add(processoCorrente);
+            } else {
+                // Il processo è terminato, viene stampato il messaggio di completamento
+                System.out.println("Processo " + processoCorrente.getNome() + " completato.");
+            }
+        }
+    }
+}
+
+/**
+ * This class represents a process.
+ */
+class Processo {
+    private String nome;
+    private int tempoEsecuzione;
+
+    /**
+     * Constructor to initialize the process with a name and execution time.
+     *
+     * @param nome             The name of the process.
+     * @param tempoEsecuzione  The execution time of the process.
+     */
+    public Processo(String nome, int tempoEsecuzione) {
+        this.nome = nome;
+        this.tempoEsecuzione = tempoEsecuzione;
+    }
+
+    /**
+     * Get the name of the process.
+     *
+     * @return The name of the process.
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * Execute the process for the specified time slice.
+     *
+     * @param intervalloDiTempo The time slice interval.
+     * @return The remaining execution time of the process after executing for the time slice.
+     */
+    public int esegui(int intervalloDiTempo) {
+        // Esecuzione del processo per la durata indicata dallo slice di tempo
+        System.out.println("Esecuzione " + nome + " per " + intervalloDiTempo + " unità di tempo.");
+        tempoEsecuzione -= intervalloDiTempo;
+        return tempoEsecuzione;
+    }
+}
