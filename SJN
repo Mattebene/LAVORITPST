@@ -1,5 +1,4 @@
-package it.edu.iisgubbio.sjn;
-
+package it.edu.iisgubbio.Prova;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,13 +12,26 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SJN extends Application {
+public class Sjn extends Application {
 
     private List<Processi> processo;
 
-    @Override
+    /**
+     * Il punto di ingresso principale per l'applicazione JavaFX.
+     *
+     * @param args Gli argomenti della riga di comando (non utilizzati).
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Il metodo start viene chiamato dopo che il metodo init ha restituito il controllo e dopo che il sistema è pronto per far iniziare l'applicazione.
+     * È responsabile per la creazione e la configurazione del palcoscenico principale e della scena per l'applicazione JavaFX.
+     *
+     * @param primaryStage Il palcoscenico principale per questa applicazione.
+     */
     public void start(Stage primaryStage) {
-       
 
         processo = new ArrayList<>();
 
@@ -50,71 +62,63 @@ public class SJN extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-     
+        // Aggiunge un processo alla lista dei processi quando viene premuto il pulsante "aggiungi processo"
         bAggiungi.setOnAction(event -> {
-        	
             String nomeProcesso = tProcesso.getText();
             int tempoArrivo = Integer.parseInt(tArrivo.getText());
 
             Processi process = new Processi(nomeProcesso, tempoArrivo);
             processo.add(process);
-
-           
         });
 
-      /*
-       * se all'interno dela emoria non c'è alcun processo
-       * scrie sulla console "NON HAI INSERITO PROCESSI"
-       */
-        
+        // Calcola e visualizza i risultati SJN quando viene premuto il pulsante "Calcola"
         bCalcola.setOnAction(event -> {
             if (processo.isEmpty()) {
                 System.out.println("NON HAI INSERITO PROCESSI");
                 return;
             }
 
-        
-            processo.sort((p1, p2) -> p1.Tempoesecuzione() - p2.Tempoesecuzione());
+            // Ordina i processi in base al tempo di esecuzione
+            processo.sort((p1, p2) -> p1.getTempoEsecuzione() - p2.getTempoEsecuzione());
 
             System.out.println("SJN Risultato:");
 
-            int tmpotot = 0;
-            int tempoatesa = 0;
+            int tempoTotale = 0;
+            int tempoAttesaTotale = 0;
 
             for (Processi processi : processo) {
-                System.out.println("Processo: " + processi.nomeProcesso() + 
-               ", tempo di esecuzione " + processi.Tempoesecuzione() + ", tempo di attesa: " + tempoatesa);
+                System.out.println("Nome processo: " + processi.getNomeProcesso());
+                System.out.println("Tempo di esecuzione: " + processi.getTempoEsecuzione());
+                System.out.println("Tempo di attesa: " + tempoAttesaTotale);
 
-                tmpotot += processi.Tempoesecuzione();
-                tempoatesa += processi.Tempoesecuzione();
+                tempoTotale += processi.getTempoEsecuzione();
+                tempoAttesaTotale += tempoAttesaTotale;
             }
 
-            double tempoattesa = (double) tempoatesa / processo.size();
-            System.out.println("tempo totale: " + tmpotot);
-            System.out.println("tempo di attesa : " + tempoattesa);
+            double tempoMedioAttesa = (double) tempoAttesaTotale / processo.size();
+            System.out.println("Tempo totale: " + tempoTotale);
+            System.out.println("Tempo medio di attesa: " + tempoMedioAttesa);
         });
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
+    /**
+     * Classe interna che rappresenta un processo.
+     */
     private static class Processi {
-        private String nomedelprocesso;
-        private int tempoesecuzione;
+        private String nomeProcesso;
+        private int tempoEsecuzione;
 
-        public Processi(String nomeProcesso, int TempoDiesEcuzione) {
-            this.nomedelprocesso = nomeProcesso;
-            this.tempoesecuzione = TempoDiesEcuzione;
+        public Processi(String nomeProcesso, int tempoEsecuzione) {
+            this.nomeProcesso = nomeProcesso;
+            this.tempoEsecuzione = tempoEsecuzione;
         }
 
-        public String nomeProcesso() {
-        	
-            return nomedelprocesso;
+        public String getNomeProcesso() {
+            return nomeProcesso;
         }
 
-        public int Tempoesecuzione() {
-            return tempoesecuzione;
+        public int getTempoEsecuzione() {
+            return tempoEsecuzione;
         }
     }
 }
