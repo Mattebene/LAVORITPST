@@ -1,10 +1,4 @@
-package it.edu.iisgubbio.fcs;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+package it.edu.iisgubbio.Prova;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -15,42 +9,52 @@ import javafx.stage.Stage;
 
 public class FcS extends Application {
 
-    
+    /**
+     * Il punto di ingresso principale per l'applicazione JavaFX.
+     *
+     * @param args Gli argomenti della riga di comando (non utilizzati).
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Il metodo start viene chiamato dopo che il metodo init ha restituito il controllo e dopo che il sistema è pronto per far iniziare l'applicazione.
+     * È responsabile per la creazione e la configurazione del palcoscenico principale e della scena per l'applicazione JavaFX.
+     *
+     * @param primaryStage Il palcoscenico principale per questa applicazione.
+     */
     public void start(Stage primaryStage) {
-       
-        int[] tempiServizio = {0, 5, 8, 16};
-        
-     
-        int[] tempiAttesa = new int[tempiServizio.length];
-        int[] tempiEsecuzione = new int[tempiServizio.length];
-        
-        tempiAttesa[0] = 0; 
-        tempiEsecuzione[0] = tempiServizio[0];
-        
+
+        int[] tempiServizio = {0, 5, 8, 16}; // Array dei tempi di servizio per i processi
+
+        int[] tempiAttesa = new int[tempiServizio.length]; // Array per memorizzare i tempi di attesa per ogni processo
+        int[] tempiEsecuzione = new int[tempiServizio.length]; // Array per memorizzare i tempi di esecuzione per ogni processo
+
+        tempiAttesa[0] = 0; // Il tempo di attesa per il primo processo è 0
+        tempiEsecuzione[0] = tempiServizio[0]; // Il tempo di esecuzione per il primo processo è il suo tempo di servizio
+
+        // Calcola i tempi di attesa e di esecuzione per ogni processo
         for (int i = 1; i < tempiServizio.length; i++) {
-            tempiAttesa[i] = tempiEsecuzione[i - 1];
-            tempiEsecuzione[i] = tempiAttesa[i] + tempiServizio[i];
+            tempiAttesa[i] = tempiEsecuzione[i - 1]; // Il tempo di attesa è uguale al tempo di esecuzione del processo precedente
+            tempiEsecuzione[i] = tempiAttesa[i] + tempiServizio[i]; // Il tempo di esecuzione è la somma del tempo di attesa e del tempo di servizio
         }
-        
-      
+
         VBox root = new VBox();
         root.setPadding(new Insets(10));
         root.setSpacing(10);
-        
+
+        // Visualizza i tempi di attesa e di esecuzione per ogni processo
         for (int i = 0; i < tempiServizio.length; i++) {
             Label label = new Label("Processo " + i + ": Tempo di servizio=" + tempiServizio[i] +
                     ", Tempo di attesa=" + tempiAttesa[i] + ", Tempo di esecuzione=" + tempiEsecuzione[i]);
             root.getChildren().add(label);
         }
-        
+
         Scene scene = new Scene(root, 400, 300);
-        
+
         primaryStage.setTitle("ciao mondo");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
