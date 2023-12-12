@@ -2,6 +2,7 @@ package it.edu.iisgubbio.Prova;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  * This class implements the Round Robin scheduling algorithm for process execution.
@@ -20,8 +21,9 @@ public class RoundRobin {
         codaProcessi.add(new Processo("P3", 5)); // Aggiunta del processo P3 con tempo di esecuzione 5
         codaProcessi.add(new Processo("P4", 7)); // Aggiunta del processo P4 con tempo di esecuzione 7
 
-        // Durata dello slice di tempo
-        int intervalloDiTempo = 2;
+        // Generazione del tempo di intervallo casuale tra 1 e 5 inclusi
+        Random random = new Random();
+        int intervalloDiTempo = random.nextInt(5) + 1;
 
         // Ciclo di esecuzione dei processi
         while (!codaProcessi.isEmpty()) {
