@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class FcS extends Application {
@@ -37,24 +37,27 @@ public class FcS extends Application {
         // Calcola i tempi di attesa e di esecuzione per ogni processo
         for (int i = 1; i < tempiServizio.length; i++) {
             tempiAttesa[i] = tempiEsecuzione[i - 1]; // Il tempo di attesa è uguale al tempo di esecuzione del processo precedente
-            tempiEsecuzione[i] = tempiAttesa[i] + tempiServizio[i]; // Il tempo di esecuzione è la somma del tempo di attesa e del tempo di servizio
+            tempiEsecuzione[i] = tempiAttesa[i] + tempiServizio[i]; // Il tempo di esecuzione è il tempo di attesa più il tempo di servizio
         }
 
-        VBox root = new VBox();
-        root.setPadding(new Insets(10));
-        root.setSpacing(10);
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
+        gridPane.setVgap(5);
 
-        // Visualizza i tempi di attesa e di esecuzione per ogni processo
         for (int i = 0; i < tempiServizio.length; i++) {
-            Label label = new Label("Processo " + i + ": Tempo di servizio=" + tempiServizio[i] +
-                    ", Tempo di attesa=" + tempiAttesa[i] + ", Tempo di esecuzione=" + tempiEsecuzione[i]);
-            root.getChildren().add(label);
+            Label labelProcesso = new Label("Processo " + (i + 1));
+            Label labelTempoAttesa = new Label("Tempo di attesa: " + tempiAttesa[i]);
+            Label labelTempoEsecuzione = new Label("Tempo di esecuzione: " + tempiEsecuzione[i]);
+
+            gridPane.add(labelProcesso, 0, i);
+            gridPane.add(labelTempoAttesa, 1, i);
+            gridPane.add(labelTempoEsecuzione, 2, i);
         }
 
-        Scene scene = new Scene(root, 400, 300);
-
-        primaryStage.setTitle("ciao mondo");
+        Scene scene = new Scene(gridPane, 400, 300);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Risultati FcS");
         primaryStage.show();
     }
 }
