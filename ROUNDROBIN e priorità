@@ -50,17 +50,18 @@ class Processo {
     /**
      * Constructor to initialize the process with a name and execution time.
      *
-     * @param nome             The name of the process.
+     * @param nomeThe name of the process.
      * @param tempoEsecuzione  The execution time of the process.
      */
     public Processo(String nome, int tempoEsecuzione) {
         this.nome = nome;
+
         this.tempoEsecuzione = tempoEsecuzione;
     }
 
     /**
      * Get the name of the process.
-     *
+     
      * @return The name of the process.
      */
     public String getNome() {
