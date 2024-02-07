@@ -1,6 +1,14 @@
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +24,7 @@ public class Video extends Application {
 
     /**
      * Metodo principale per avviare l'applicazione.
+     *
      * @param primaryStage Lo stage principale dell'applicazione.
      */
     @Override
@@ -46,6 +55,7 @@ public class Video extends Application {
 
     /**
      * Metodo per ottenere un indice casuale dalla lista dei video.
+     *
      * @return Indice casuale.
      */
     private int ottieniIndiceCasuale() {
@@ -59,10 +69,42 @@ public class Video extends Application {
     }
 
     /**
+     * Metodo per leggere da un file CSV.
+     *
+     * @param filePath Il percorso del file CSV da leggere.
+     * @return Una lista di record CSV.
+     * @throws IOException Se si verifica un errore durante la lettura del file.
+     */
+    private List<CSVRecord> leggiDaCSV(String filePath) throws IOException {
+        Reader reader = Files.newBufferedReader(Paths.get(filePath));
+        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+        return csvParser.getRecords();
+    }
+
+    /**
+     * Metodo per scrivere su un file CSV.
+     *
+     * @param filePath Il percorso del file CSV su cui scrivere.
+     * @param records  I record da scrivere nel file CSV.
+     * @throws IOException Se si verifica un errore durante la scrittura del file.
+     */
+    private void scriviSuCSV(String filePath, List<CSVRecord> records) throws IOException {
+        Writer writer = new FileWriter(filePath);
+        CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
+        for (CSVRecord record : records) {
+            csvPrinter.printRecord(record);
+        }
+        csvPrinter.flush();
+    }
+
+    /**
      * Metodo per riprodurre un video casuale.
      */
     private void videoCasuale() {
-        int indiceCasuale = ottieniIndiceCasuale();
-        // Implementazione della riproduzione del video casuale
+        // Implementazione della riproduzione di un video casuale
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
