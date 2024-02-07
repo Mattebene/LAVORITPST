@@ -29,14 +29,6 @@ public class Video extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-        // Aggiunta degli URL dei video alla lista
-        elencoVideo.add("C:\\percorso\\del\\video1.mp4");
-        elencoVideo.add("C:\\percorso\\del\\video2.mp4");
-        elencoVideo.add("C:\\percorso\\del\\video3.mp4");
-        elencoVideo.add("C:\\percorso\\del\\video4.mp4");
-        elencoVideo.add("C:\\percorso\\del\\video5.mp4");
-
         // Creazione di un pulsante per riprodurre un video casuale
         Button riproduciButton = new Button("Riproduci Video");
         riproduciButton.setOnAction(e -> videoCasuale());
